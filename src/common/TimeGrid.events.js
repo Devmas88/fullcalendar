@@ -274,6 +274,7 @@ TimeGrid.mixin({
 			startTimeText = this.getEventTimeText(event, null, false); // displayEnd=false
 		}
 
+		// #XXX Reservations block cuntomizing. Here!! (david@humanscape.co.kr)
 		return '<a class="' + classes.join(' ') + '"' +
 			(event.url ?
 				' href="' + htmlEscape(event.url) + '"' :
