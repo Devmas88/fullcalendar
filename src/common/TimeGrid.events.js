@@ -273,46 +273,40 @@ TimeGrid.mixin({
 			fullTimeText = this.getEventTimeText(event, 'LT');
 			startTimeText = this.getEventTimeText(event, null, false); // displayEnd=false
 		}
-
-		return '<a class="' + classes.join(' ') + '"' +
-			(event.url ?
-				' href="' + htmlEscape(event.url) + '"' :
-				''
-				) +
-			(skinCss ?
+		// #XXX Reservations block customizing. Here!! (david@humanscape.co.kr)
+        return '<a class="fc-time-grid-event fc-v-event fc-event fc-start fc-end fc-draggable fc-resizable"' +
+            (skinCss ?
 				' style="' + skinCss + '"' :
 				''
 				) +
-			'>' +
-				'<div class="fc-content">' +
-					(timeText ?
-						'<div class="fc-time"' +
-						' data-start="' + htmlEscape(startTimeText) + '"' +
-						' data-full="' + htmlEscape(fullTimeText) + '"' +
-						'>' +
-							'<span>' + htmlEscape(timeText) + '</span>' +
-						'</div>' :
-						''
-						) +
-					(event.title ?
-						'<div class="fc-title">' +
-							htmlEscape(event.title) +
-						'</div>' :
-						''
-						) +
+          '>' +
+            '<div>' +
+                '<div' +
+				' class="row" ' +
+                ' data-start="' + htmlEscape(startTimeText) + '"' +
+                ' data-full="' + htmlEscape(fullTimeText) + '"' +
+                '>' +
+                  '<div class="col-md-4">' + htmlEscape(timeText) + '</div>' +
+				  '<div class="col-md-3">' + (event.type === 'noShow' ? '노쇼' : '') + '</div>' +
+                '</div>' +
+                '<div class="row">' +
+                  '<div class="col-md-1">' + (event.isFirstTreat === true ? '초진' : '') + '</div>' +
+                  '<div class="col-md-1">' + event.purpose + '</div>' +
+                  '<div class="col-md-1">' + event.customerClass + '</div>' +
+                  '<div class="col-md-1">' + (event.isApp === true ? 'App' : '') + '</div>' +
+                '</div>' +
+				'<div class="row">' +
+				  '<div class="col-md-12">' + event.name + ' / ' + (event.isFemale === true ? '여성' : '남성') + ',' + event.age + '</div>' +
 				'</div>' +
-				'<div class="fc-bg"/>' +
-				/* TODO: write CSS for this
-				(isResizableFromStart ?
-					'<div class="fc-resizer fc-start-resizer" />' :
-					''
-					) +
-				*/
-				(isResizableFromEnd ?
-					'<div class="fc-resizer fc-end-resizer" />' :
-					''
-					) +
-			'</a>';
+                '<div class="row">' +
+                  '<div class="col-md-12"> 시술 </div>' + // TODO 시술 보여주는 방법 고민 필요
+                '</div>' +
+				'<div class="row">' +
+                  '<div class="col-md-12">' + event.visitPath + '</div>' +
+                '</div>' +
+            '</div>' +
+            '<div class="fc-bg"/><div class="fc-resizer fc-end-resizer" />' +
+          '</a>';
 	},
 
 

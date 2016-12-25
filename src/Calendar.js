@@ -10,6 +10,7 @@ var Calendar = FC.Calendar = Class.extend({
 	view: null, // current View object
 	header: null,
 	footer: null,
+	isHumanscale: false,
 	loadingLevel: 0, // number of simultaneous loading tasks
 
 
