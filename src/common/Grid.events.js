@@ -941,14 +941,16 @@ Grid.mixin({
 	},
 
 
+	// XXX Loowin getSegTextColor -> getCustomSegTextColor 
 	// Utility for generating event skin-related CSS properties
 	getSegSkinCss: function(seg) {
 		return {
 			'background-color': this.getSegBackgroundColor(seg),
 			'border-color': this.getSegBorderColor(seg),
-			color: this.getSegTextColor(seg)
+			color: this.getCustomSegTextColor(seg)
 		};
 	},
+	// Loowin end
 
 
 	// Queries for caller-specified color, then falls back to default
@@ -985,6 +987,44 @@ Grid.mixin({
 			this.view.opt('eventBorderColor') ||
 			this.view.opt('eventColor');
 	},
+
+	// #XXX Reservations block customizing. Here!! Loowin start (david@humanscape.co.kr)
+	// Queries for caller-specified color, then falls back to default
+	getCustomSegTextColor: function(seg) {
+		var isBright = (parseInt(this.get_brightness(this.rgb2hex(this.getSegBackgroundColor(seg)))) > 160);
+		if (!isBright) {
+			return 'white';
+		} else {
+			return 'black';
+		}
+	},
+
+
+	// Check color brightness
+	// returns brightness value from 0 to 255
+	get_brightness: function(hexCode) {
+	// strip off any leading #
+	hexCode = hexCode.replace('#', '');
+	var c_r = parseInt(hexCode.substr(0, 2),16);
+	var c_g = parseInt(hexCode.substr(2, 2),16);
+	var c_b = parseInt(hexCode.substr(4, 2),16);
+	return ((c_r * 299) + (c_g * 587) + (c_b * 114)) / 1000;
+	},
+
+
+	// convert RGB to hex
+	rgb2hex: function(rgb) {
+		if (  rgb.search("rgb") == -1 ) {
+			return rgb;
+		} else {
+			rgb = rgb.match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d+))?\)$/);
+			function hex(x) {
+				return ("0" + parseInt(x).toString(16)).slice(-2);
+			}
+			return "#" + hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3]); 
+		}
+	},
+	// XXX Loowin end
 
 
 	// Queries for caller-specified color, then falls back to default

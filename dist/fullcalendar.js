@@ -4978,14 +4978,16 @@ Grid.mixin({
 	},
 
 
+	// XXX Loowin getSegTextColor -> getCustomSegTextColor 
 	// Utility for generating event skin-related CSS properties
 	getSegSkinCss: function(seg) {
 		return {
 			'background-color': this.getSegBackgroundColor(seg),
 			'border-color': this.getSegBorderColor(seg),
-			color: this.getSegTextColor(seg)
+			color: this.getCustomSegTextColor(seg)
 		};
 	},
+	// Loowin end
 
 
 	// Queries for caller-specified color, then falls back to default
@@ -5022,6 +5024,44 @@ Grid.mixin({
 			this.view.opt('eventBorderColor') ||
 			this.view.opt('eventColor');
 	},
+
+	// #XXX Reservations block customizing. Here!! Loowin start (david@humanscape.co.kr)
+	// Queries for caller-specified color, then falls back to default
+	getCustomSegTextColor: function(seg) {
+		var isBright = (parseInt(this.get_brightness(this.rgb2hex(this.getSegBackgroundColor(seg)))) > 160);
+		if (!isBright) {
+			return 'white';
+		} else {
+			return 'black';
+		}
+	},
+
+
+	// Check color brightness
+	// returns brightness value from 0 to 255
+	get_brightness: function(hexCode) {
+	// strip off any leading #
+	hexCode = hexCode.replace('#', '');
+	var c_r = parseInt(hexCode.substr(0, 2),16);
+	var c_g = parseInt(hexCode.substr(2, 2),16);
+	var c_b = parseInt(hexCode.substr(4, 2),16);
+	return ((c_r * 299) + (c_g * 587) + (c_b * 114)) / 1000;
+	},
+
+
+	// convert RGB to hex
+	rgb2hex: function(rgb) {
+		if (  rgb.search("rgb") == -1 ) {
+			return rgb;
+		} else {
+			rgb = rgb.match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d+))?\)$/);
+			function hex(x) {
+				return ("0" + parseInt(x).toString(16)).slice(-2);
+			}
+			return "#" + hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3]); 
+		}
+	},
+	// XXX Loowin end
 
 
 	// Queries for caller-specified color, then falls back to default
@@ -7703,7 +7743,7 @@ TimeGrid.mixin({
 			fullTimeText = this.getEventTimeText(event, 'LT');
 			startTimeText = this.getEventTimeText(event, null, false); // displayEnd=false
 		}
-		// #XXX Reservations block customizing. Here!! (david@humanscape.co.kr)
+        // #XXX Reservations block customizing. Here!! (david@humanscape.co.kr)
         return '<a class="fc-time-grid-event fc-v-event fc-event fc-start fc-end fc-draggable fc-resizable"' +
             (skinCss ?
 				' style="' + skinCss + '"' :
@@ -7712,27 +7752,26 @@ TimeGrid.mixin({
           '>' +
             '<div>' +
                 '<div' +
-				' class="row" ' +
+				' class="row boxTitle" ' +
                 ' data-start="' + htmlEscape(startTimeText) + '"' +
                 ' data-full="' + htmlEscape(fullTimeText) + '"' +
                 '>' +
                   '<div class="col-md-4">' + htmlEscape(timeText) + '</div>' +
 				  '<div class="col-md-3">' + (event.type === 'noShow' ? '노쇼' : '') + '</div>' +
                 '</div>' +
-                '<div class="row">' +
-                  '<div class="col-md-1">' + (event.isFirstTreat === true ? '초진' : '') + '</div>' +
-                  '<div class="col-md-1">' + event.purpose + '</div>' +
-                  '<div class="col-md-1">' + event.customerClass + '</div>' +
-                  '<div class="col-md-1">' + (event.isApp === true ? 'App' : '') + '</div>' +
+                '<div class="row boxFirstContent">' +
+                  '<span class="boxName">' + event.name + '</span>' +
+				  '<span class="boxFirstTreat">' + (event.isFirstTreat === true ? '초진' : '') + '</span>' +
+                  '<span class="boxPurpose">' + event.purpose + '</span>' +
                 '</div>' +
-				'<div class="row">' +
-				  '<div class="col-md-12">' + event.name + ' / ' + (event.isFemale === true ? '여성' : '남성') + ',' + event.age + '</div>' +
+				'<div class="row boxFirstContent">' +
+				  '<div class="col-md-12 boxUser">' + (event.isFemale === true ? '여성' : '남성') + ',' + event.age + '</div>' +
 				'</div>' +
                 '<div class="row">' +
-                  '<div class="col-md-12"> 시술 </div>' + // TODO 시술 보여주는 방법 고민 필요
+                  '<div class="col-md-12 boxUser"> 시술 </div>' + // TODO 시술 보여주는 방법 고민 필요
                 '</div>' +
 				'<div class="row">' +
-                  '<div class="col-md-12">' + event.visitPath + '</div>' +
+                  '<div class="col-md-12 boxUser">' + event.visitPath + '</div>' +
                 '</div>' +
             '</div>' +
             '<div class="fc-bg"/><div class="fc-resizer fc-end-resizer" />' +
