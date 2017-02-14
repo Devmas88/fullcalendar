@@ -7744,38 +7744,41 @@ TimeGrid.mixin({
 			startTimeText = this.getEventTimeText(event, null, false); // displayEnd=false
 		}
         // #XXX Reservations block customizing. Here!! (david@humanscape.co.kr)
-        return '<a class="fc-time-grid-event fc-v-event fc-event fc-start fc-end fc-draggable fc-resizable"' +
-            (skinCss ?
-				' style="' + skinCss + '"' :
-				''
-				) +
-          '>' +
-            '<div>' +
-                '<div' +
-				' class="row boxTitle" ' +
-                ' data-start="' + htmlEscape(startTimeText) + '"' +
-                ' data-full="' + htmlEscape(fullTimeText) + '"' +
-                '>' +
-                  '<div class="col-md-4">' + htmlEscape(timeText) + '</div>' +
-				  '<div class="col-md-3">' + (event.type === 'noShow' ? '노쇼' : '') + '</div>' +
-                '</div>' +
-                '<div class="row boxFirstContent">' +
-                  '<span class="boxName">' + event.name + '</span>' +
-				  '<span class="boxFirstTreat">' + (event.isFirstTreat === true ? '초진' : '') + '</span>' +
-                  '<span class="boxPurpose">' + event.purpose + '</span>' +
-                '</div>' +
-				'<div class="row boxFirstContent">' +
-				  '<div class="col-md-12 boxUser">' + (event.isFemale === true ? '여성' : '남성') + ',' + event.age + '</div>' +
+		return '<a class="' + event.type + 'Box fc-time-grid-event fc-v-event fc-event fc-start fc-end fc-draggable fc-resizable"' +
+			(skinCss ?
+					' style="' + skinCss + '"' :
+					''
+					) +
+			'>' +
+			'<div class="' + event.type + '">' +
+				'<div' +
+					' class="row boxTitle" ' +
+				' data-start="' + htmlEscape(startTimeText) + '"' +
+				' data-full="' + htmlEscape(fullTimeText) + '"' +
+				'>' +
+					'<span class="boxNoshow">' + (event.type === 'noShow' ? '노쇼' : '') + '</span>' +
+					'<span>' + htmlEscape(timeText) + '</span>' +
 				'</div>' +
-                '<div class="row">' +
-                  '<div class="col-md-12 boxUser"> 시술 </div>' + // TODO 시술 보여주는 방법 고민 필요
-                '</div>' +
+				'<div class="row boxFirstContent">' +
+					'<span class="boxName">' + event.name + '</span>' +
+					(event.isFirstTreat === true ? '<span class="boxFirstTreat">초진</span>' : '') +
+					'<span class="boxPurpose">' + event.purpose + '</span>' +
+				'</div>' +
+					'<div class="row boxFirstContent">' +
+					'<div class="col-md-12 boxUser">' + (event.isFemale === true ? '여' : '남') + ', ' + event.age + '</div>' +
+					'</div>' +
 				'<div class="row">' +
-                  '<div class="col-md-12 boxUser">' + event.visitPath + '</div>' +
-                '</div>' +
-            '</div>' +
-            '<div class="fc-bg"/><div class="fc-resizer fc-end-resizer" />' +
-          '</a>';
+					'<div class="col-md-12 boxUser"> 시술 </div>' + // TODO 시술 보여주는 방법 고민 필요
+				'</div>' +
+					'<div class="row">' +
+					'<div class="col-md-12 boxUser">' + event.visitPath + '</div>' +
+				'</div>' +
+					'<div class="row">' +
+					'<div class="col-md-12 boxUser">' + event.type + '</div>' +
+				'</div>' +
+			'</div>' +
+			'<div class="fc-bg"/><div class="fc-resizer fc-end-resizer" />' +
+			'</a>';
 	},
 
 
