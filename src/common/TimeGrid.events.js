@@ -286,16 +286,16 @@ TimeGrid.mixin({
                 ' data-start="' + htmlEscape(startTimeText) + '"' +
                 ' data-full="' + htmlEscape(fullTimeText) + '"' +
                 '>' +
-                    '<span class="boxNoshow">' + (event.type === 'noShow' ? '노쇼' : '') + '</span>' +
+                    '<span class="boxNoshow">' + (event.type === 'noShow' ? 'No-show' : '') + '</span>' +
                     '<span>' + htmlEscape(timeText) + '</span>' +
                 '</div>' +
                 '<div class="row boxFirstContent">' +
                     '<span class="boxName">' + event.name + '</span>' +
-                    (event.isFirstTreat === true ? '<span class="boxFirstTreat">초진</span>' : '') +
+                    (event.isFirstTreat === true ? '<span class="boxFirstTreat"></span>' : '') +
                     '<span class="boxPurpose">' + event.purpose + '</span>' +
                 '</div>' +
                     '<div class="row boxFirstContent">' +
-                    '<div class="col-md-12 boxUser">' + (event.isFemale === 'true' ? '여' : '남') + ', ' + event.age + '</div>' +
+                    '<div class="col-md-12 boxUser">' + (event.isFemale === 'true' ? 'Female' : 'Male') + ', ' + event.age + '</div>' +
                     '</div>' +
                 // '<div class="row">' +
                 //     '<div class="col-md-12 boxUser"> 시술 </div>' + // TODO 시술 보여주는 방법 고민 필요
