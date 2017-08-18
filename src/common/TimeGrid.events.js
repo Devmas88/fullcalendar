@@ -295,18 +295,10 @@ TimeGrid.mixin({
                     '<span class="boxPurpose">' + event.purpose + '</span>' +
                 '</div>' +
                     '<div class="row boxFirstContent">' +
-                    '<div class="col-md-12 boxUser">' + (event.isFemale === 'true' ? '여' : '남') + ', ' + event.age + '</div>' +
-                    '</div>' +
-                // '<div class="row">' +
-                //     '<div class="col-md-12 boxUser"> 시술 </div>' + // TODO 시술 보여주는 방법 고민 필요
-                // '</div>' +
-                //     '<div class="row">' +
-                //     '<div class="col-md-12 boxUser">' + event.visitPath + '</div>' +
-                // '</div>' +
-                //     '<div class="row">' +
-                //     '<div class="col-md-12 boxUser">' + event.type + '</div>' +
-                // '</div>' +
-            '</div>' +
+                    '<div class="col-md-12 boxUser">' + (event.age.length === 0 ? '' : event.age) + (event.treatmentsName.length === 0 ? '' : ' ► '+ event.treatmentsName) +  '</div>' +
+					'<div class="col-md-12 boxUser">' + (event.memo.length === 0 ? '' : ' ► '+ event.memo) +  '</div>' +
+					'</div>' +
+					'</div>' +
             '<div class="fc-bg"/><div class="fc-resizer fc-end-resizer" />' +
             '</a>';
     },
